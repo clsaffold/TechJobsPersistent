@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>1b3dc69c-a734-483d-aa40-5f38390b42af</UserSecretsId>
   </PropertyGroup>
 
 
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\Employer\" />
     <Folder Include="Data\" />
     <Folder Include="Views\List\" />
@@ -15,6 +15,11 @@
     <Folder Include="Views\Skill\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
   </ItemGroup>
 </Project>
