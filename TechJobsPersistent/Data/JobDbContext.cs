@@ -1,5 +1,7 @@
 ﻿using TechJobsPersistent.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System;
 
 namespace TechJobsPersistent.Data
 {
@@ -19,6 +21,11 @@ namespace TechJobsPersistent.Data
         {
             modelBuilder.Entity<JobSkill>()
                 .HasKey(j => new { j.JobId, j.SkillId });
+        }
+
+        internal static IEnumerable<Employer> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }
