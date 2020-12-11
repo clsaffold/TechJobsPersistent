@@ -8,13 +8,16 @@ namespace TechJobsPersistent.ViewModels
     {
         public int JobId { get; set; }
         public string Name { get; set; }
+        public int EmployerId { get; set; }
         public string EmployerName { get; set; }
         public string SkillText { get; set; }
+        public string Location { get; set; }
 
         public JobDetailViewModel(Job theJob, List<JobSkill> jobSkills)
         {
             JobId = theJob.Id;
             Name = theJob.Name;
+            EmployerId = theJob.Employer.Id;
             EmployerName = theJob.Employer.Name;
 
             SkillText = "";
@@ -26,6 +29,7 @@ namespace TechJobsPersistent.ViewModels
                     SkillText += ", ";
                 }
             }
+            Location = theJob.Employer.Location;
         }
     }
 }

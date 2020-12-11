@@ -21,12 +21,13 @@ else
         <tr>
             <th>Position Name</th>
             <th>Employer</th>
+            <th>Location</th>
         </tr>
         @foreach (Job job in Model)
         {
             <tr>
                 <td><a asp-controller="Home" asp-action="Detail" asp-route-id="@job.Id">@job.Name</a></td>
-                <td>@job.Employer.Name</td>
+                <td>@job.Employer.Name</td><td>@job.Employer.Location</td>
             </tr>
         }
     </table>
