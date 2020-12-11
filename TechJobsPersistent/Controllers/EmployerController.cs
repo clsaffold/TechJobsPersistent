@@ -14,7 +14,7 @@ namespace TechJobsPersistent.Controllers
 {
     public class EmployerController : Controller
     {
-        private JobDbContext context;
+        private readonly JobDbContext context;
         
         public EmployerController(JobDbContext dbContext)
         {

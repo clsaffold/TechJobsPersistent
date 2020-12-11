@@ -4,11 +4,42 @@
 
 <form asp-controller="Home" asp-action="ProcessAddJobForm" method="post">
     <div class="form-group">
-        <label>Name</label>
-        <input class="form-control" />
-        <span></span>
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
     </div>
 
-    <input type="submit" value="Add Job" />
+    <div class="form-group">
+        <label asp-for="EmployerId">Employer</label>
+        <select asp-for="EmployerId" asp-items="Model.Employers"></select>
+    </div>
+    
+    <a href="../Employer/Add/">Add Employers</a>
+    <br /><br />
+    
+    <p>Skills:</p>
+    @if (Model.Skills.Count == 0)
+    {
+        <p>No skills are currently listed!</p>
+    }
+    else
+    {
+        <div class="form-group">
+            <label asp-for"SkillId>Skill</label>"
+            <ul>
+
+                @foreach (var skill in Model.Skills)
+                {
+                    <li>
+                        <input type="checkbox" name="selectedSkills" value="@skill.Value" />@skill.Text
+                    </li>
+                }
+            </ul>
+            <a href="../Skill/Add/">Add Skills</a>
+        </div>
+    }
+    
+    <br /><br />
+    <input type="submit" value="Add Job" href="../List/Jobs"/>
 </form>
 

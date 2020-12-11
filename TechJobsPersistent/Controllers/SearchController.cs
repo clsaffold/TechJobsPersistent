@@ -98,6 +98,8 @@ namespace TechJobsPersistent.Controllers
             ViewBag.columns = ListController.ColumnChoices;
             ViewBag.title = "Jobs with " + ListController.ColumnChoices[searchType] + ": " + searchTerm;
             ViewBag.jobs = displayJobs;
+            ViewBag.searchType = searchType;
+            ViewBag.searchTerm = searchTerm;
 
             return View("Index");
         }

@@ -10,12 +10,13 @@ using TechJobsPersistent.ViewModels;
 using TechJobsPersistent.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace TechJobsPersistent.Controllers
 {
     public class HomeController : Controller
     {
-        private JobDbContext context;
+        private readonly JobDbContext context;
 
         public HomeController(JobDbContext dbContext)
         {
@@ -32,17 +33,50 @@ namespace TechJobsPersistent.Controllers
         [HttpGet("/Add")]
         public IActionResult AddJob()
         {
-            return View();
+            List<Employer> employers = context.Employers.ToList();
+            List<Skill> skills = context.Skills.ToList();
+
+            AddJobViewModel addJobViewModel = new AddJobViewModel(employers, skills);
+            return View(addJobViewModel);
         }
 
-        public IActionResult ProcessAddJobForm()
+        [HttpPost]
+        [Route("/Add;")]
+        public IActionResult ProcessAddJobForm(AddJobViewModel addJobViewModel, string[] selectedSkills)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                Employer theEmployer = context.Employers.Find(addJobViewModel.EmployerId);
+                
+                Job newJob = new Job
+                {
+                    Name = addJobViewModel.Name,
+                    EmployerId = addJobViewModel.EmployerId,
+                    Employer = theEmployer
+                };
+
+                //Iterate a Loop that sends the numbers
+                for (int i = 0; i < selectedSkills.Length; i++)
+                {
+                    JobSkill newJobSkill = new JobSkill
+                    {
+                        JobId = newJob.Id,
+                        Job = newJob,
+                        SkillId = int.Parse(selectedSkills[i])
+                    };
+                    context.JobSkills.Add(newJobSkill);
+                }
+
+                context.Jobs.Add(newJob);
+                context.SaveChanges();
+                return Redirect("Home");
+            }
+            return View("Add", addJobViewModel);
         }
 
         public IActionResult Detail(int id)
         {
-            Job theJob = context.Jobs
+            Job job = context.Jobs
                 .Include(j => j.Employer)
                 .Single(j => j.Id == id);
 
@@ -51,7 +85,7 @@ namespace TechJobsPersistent.Controllers
                 .Include(js => js.Skill)
                 .ToList();
 
-            JobDetailViewModel viewModel = new JobDetailViewModel(theJob, jobSkills);
+            JobDetailViewModel viewModel = new JobDetailViewModel(job, jobSkills);
             return View(viewModel);
         }
     }
